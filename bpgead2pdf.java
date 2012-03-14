@@ -15,10 +15,6 @@
  * limitations under the License.
  */
 
-/* $Id$ */
-
-package embedding;
-
 //Java
 import java.io.File;
 import java.io.OutputStream;
