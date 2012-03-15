@@ -33,6 +33,9 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 
+//Apache Commons
+import org.apache.commons.io.FilenameUtils;
+
 /**
  * This class demonstrates the conversion of an XML file to PDF using
  * JAXP (XSLT) and FOP (XSL-FO).
@@ -54,9 +57,10 @@ public class bpgead2pdf {
             outDir.mkdirs();
 
             // Setup input and output files
-            File xmlfile = new File(baseDir, "fa.xml");
+            File xmlfile = new File(args[0]);
             String xsltfile = new String("http://www.library.yale.edu/facc/xsl/fo/yul.ead2002.pdf.xsl");
-            File pdffile = new File(outDir, "fa.pdf");
+            String pdffn = new String(FilenameUtils.getBaseName(args[0]) + ".pdf");
+            File pdffile = new File(outDir, pdffn);
 
             System.out.println("Input: XML (" + xmlfile + ")");
             System.out.println("Stylesheet: " + xsltfile);
