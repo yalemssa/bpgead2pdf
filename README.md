@@ -22,3 +22,8 @@ For example:
     $ java -jar bpgead2pdf.jar mssa.ms.1746.xml
 
 The PDF file generated will be placed in the "out" subdirectory.
+
+Known Issues
+------------
+
+The application may not resolve the required font for the stylesheet (Arial Unicode MS) on certain platforms.
