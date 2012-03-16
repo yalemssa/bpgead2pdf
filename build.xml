@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!--ant-->
+<project name="bpgead2pdf" basedir=".">
+
+  <property name="build" value="build"/>
+  
+  <target name="clean">
+    <delete dir="${build}"/>
+  </target>
+  
+  <target name="init" depends="clean">
+    <mkdir dir="${build}"/>
+  </target>
+  
+  <target name="compile" depends="init">
+    <javac srcdir="src" destdir="${build}">
+      <classpath>
+        <fileset dir="lib">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+  
+  <target name="jar" depends="compile">
+    <jar basedir="${build}" destfile="${build}/bpgead2pdf.jar">
+      <zipgroupfileset dir="lib" includes="*.jar" />
+      <manifest>
+        <attribute name="Main-Class" value="bpgead2pdf"/>
+      </manifest>
+    </jar>
+  </target>
+  
+</project>

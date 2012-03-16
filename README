@@ -1,7 +1,0 @@
-build:
-
-javac -cp /usr/local/Cellar/fop/1.0/libexec/build/*:/usr/local/Cellar/fop/1.0/libexec/lib/* bpgead2pdf.java 
-
-run:
-
-java -Djava.awt.headless=true -cp .:/usr/local/Cellar/fop/1.0/libexec/build/*:/usr/local/Cellar/fop/1.0/libexec/lib/* bpgead2pdf
