@@ -23,7 +23,8 @@
   
   <target name="jar" depends="compile">
     <jar basedir="${build}" destfile="${build}/bpgead2pdf.jar">
-      <zipgroupfileset dir="lib" includes="*.jar" />
+      <zipgroupfileset excludes="saxon9he.jar" dir="lib" includes="*.jar" />
+      <zipfileset excludes="META-INF/**/*" src="lib/saxon9he.jar" />
       <manifest>
         <attribute name="Main-Class" value="bpgead2pdf"/>
       </manifest>

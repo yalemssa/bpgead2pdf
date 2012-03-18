@@ -36,6 +36,14 @@ import org.apache.fop.apps.MimeConstants;
 //Apache Commons
 import org.apache.commons.io.FilenameUtils;
 
+//Saxon
+import net.sf.saxon.s9api.Processor;
+import net.sf.saxon.s9api.SAXDestination;
+import net.sf.saxon.s9api.XsltCompiler;
+import net.sf.saxon.s9api.XsltExecutable;
+import net.sf.saxon.s9api.XsltTransformer;
+
+
 /**
  * This class demonstrates the conversion of an XML file to PDF using
  * JAXP (XSLT) and FOP (XSL-FO).
@@ -48,7 +56,6 @@ public class bpgead2pdf {
      */
     public static void main(String[] args) {
         try {
-            System.out.println("FOP ExampleXML2PDF\n");
             System.out.println("Preparing...");
 
             // Setup directories
@@ -74,6 +81,9 @@ public class bpgead2pdf {
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
             // configure foUserAgent as desired
 
+            // configure XSLT Processor
+            Processor processor = new Processor(false);
+            
             // Setup output
             OutputStream out = new java.io.FileOutputStream(pdffile);
             out = new java.io.BufferedOutputStream(out);
@@ -83,20 +93,24 @@ public class bpgead2pdf {
                 Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
 
                 // Setup XSLT
-                TransformerFactory factory = TransformerFactory.newInstance();
-                Transformer transformer = factory.newTransformer(new StreamSource(xsltfile));
+                XsltCompiler compiler = processor.newXsltCompiler();
+                XsltExecutable transform = compiler.compile(new StreamSource(xsltfile));
+                XsltTransformer transformer = transform.load();
 
                 // Set the value of a <param> in the stylesheet
-                transformer.setParameter("versionParam", "2.0");
+                // transformer.setParameter("versionParam", "2.0");
 
                 // Setup input for XSLT transformation
                 Source src = new StreamSource(xmlfile);
 
                 // Resulting SAX events (the generated FO) must be piped through to FOP
-                Result res = new SAXResult(fop.getDefaultHandler());
+                SAXDestination res = new SAXDestination(fop.getDefaultHandler());
 
                 // Start XSLT transformation and FOP processing
-                transformer.transform(src, res);
+                transformer.setDestination(res);
+                transformer.setSource(src);
+                transformer.transform();
+
             } finally {
                 out.close();
             }
